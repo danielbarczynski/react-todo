@@ -1,9 +1,11 @@
 import React from 'react'
 
-
 export const Todo = ({ todo }) => {
   return (
-    <div>{todo}</div>
+    <div>
+        <input type="checkbox" checked={todo.complete} />
+        {todo.name}
+    </div>
   )
 }
 
