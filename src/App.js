@@ -22,6 +22,13 @@ function App() {
     console.log(saveTodo);
   }, [todos]) // calling it when there are some todos in our array
 
+  function toggleCheckbox(id) {
+    const newTodos = [...todos];
+    const todo = newTodos.find(x => x.id === id);
+    todo.complete = !todo.complete;
+    setTodos(newTodos);
+  }
+
   function addTodo(e) {
     const name = refTodo.current.value;
     if (!name) return;
@@ -30,16 +37,20 @@ function App() {
       return [...prev, {id: uuidv4(), name: name, complete: false}]
     })
     refTodo.current.value = null;
-  
+  }
+
+  function deleteTodo() {
+    const newTodos = todos.filter(x => !x.complete);
+    setTodos(newTodos);
   }
 
   return (
     <>
-      <TodoList todos={todos} />
+      <TodoList todos={todos} toggleCheckbox={toggleCheckbox}/>
       <input ref={refTodo} type="text" />
       <button onClick={addTodo}>Add</button>
-      <button>Done</button>
-      <div>0 left</div>
+      <button onClick={deleteTodo}>Done</button>
+      <div>{todos.filter(x => x.complete === false).length} left</div>
     </>
   );
 }
